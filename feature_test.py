@@ -7,18 +7,43 @@ from sklearn.model_selection import cross_val_score
 import warnings
 warnings.filterwarnings('ignore')
 
-data = pandas.read_csv('Kepler.csv',comment = "#")
-data = data[data['koi_disposition'] != 'CANDIDATE']
-mapping = {'CONFIRMED': 0, 'FALSE POSITIVE': 1}
-data['koi_disposition'] = data['koi_disposition'].map(mapping)
-data = data.drop(['kepid','kepoi_name','kepler_name','koi_tce_delivname','koi_pdisposition','koi_fpflag_nt','koi_fpflag_co','koi_fpflag_ss','koi_fpflag_ec','koi_kepmag','dec','koi_score'], axis =1)
-err_columns = data.filter(like='err').columns
-data = data.drop(err_columns, axis=1)
+data1 = pandas.read_csv('Kepler.csv',comment = "#")
+data1=data1[['ra','dec','koi_prad','koi_period','koi_steff','koi_srad','koi_disposition']]
+data1 = data1.rename(columns={
+    'koi_prad':'pl_rade',
+    'koi_period':'pl_orbper',
+    'koi_steff':'st_teff',
+    'koi_srad':'st_rad',
+    'koi_disposition':'disposition'
+})
+data1['disposition'] = data1['disposition'].map({'CONFIRMED': 0, 'CANDIDATE': 1 ,'FALSE POSITIVE': 2})
 
-x = data.drop('koi_disposition', axis = 1)
-y = data['koi_disposition']
+data2 = pandas.read_csv('K2.csv',comment = "#")
+data2=data2[['ra','dec','pl_rade','pl_orbper','st_teff','st_rad','disposition']]
+data2['disposition'] = data2['koi_disposition'].map({'CONFIRMED': 0, 'CANDIDATE': 1 ,'FALSE POSITIVE': 2})
 
-RFclassifier = RandomForestClassifier(n_estimators=200, random_state=42,max_features="sqrt",class_weight='balanced',min_samples_leaf=2,min_samples_split=5)
+data3 = pandas.read_csv('TESS.csv',comment = "#")
+data3=data3[['ra','dec','pl_rade','pl_orbper','st_teff','st_rad','tfopwg_disp']]
+data3 = data3.rename(columns={'tfopwg_disp':'disposition'})
+data3 = data3[~data3['disposition'].isin(['APC','FA','KP'])]
+data3['disposition'] = data3['disposition'].map({'CP': 0, 'PC': 1 ,'FP': 2})
+
+data=pandas.concat([data1, data2, data3], ignore_index=True)
+
+#data = data[data['koi_disposition'] != 'CANDIDATE']
+#mapping = {'CONFIRMED': 0, 'FALSE POSITIVE': 1}
+#data['koi_disposition'] = data['koi_disposition'].map(mapping)
+#data = data.drop(['kepid','kepoi_name','kepler_name','koi_tce_delivname','koi_pdisposition','koi_fpflag_nt','koi_fpflag_co','koi_fpflag_ss','koi_fpflag_ec','koi_kepmag','dec','koi_score'], axis =1)
+#err_columns = data.filter(like='err').columns
+#data = data.drop(err_columns, axis=1)
+
+
+
+
+x = data.drop('disposition', axis = 1)
+y = data['disposition']
+
+RFclassifier = RandomForestClassifier(n_estimators=300, random_state=42,max_features="log2",max_depth=30)
 cv_scores = cross_val_score(RFclassifier, x, y, cv=5, scoring='accuracy')
 print("Mean CV Accuracy:", cv_scores.mean())
 
