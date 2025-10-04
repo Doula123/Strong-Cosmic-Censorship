@@ -16,20 +16,22 @@ data1 = data1.rename(columns={
     'koi_srad':'st_rad',
     'koi_disposition':'disposition'
 })
-data1['disposition'] = data1['disposition'].map({'CONFIRMED': 0, 'CANDIDATE': 1 ,'FALSE POSITIVE': 2})
+data1['disposition'] = data1['disposition'].map({'CONFIRMED': 0,'FALSE POSITIVE': 1})
+data1 = data1[~data1['disposition'].isin(['CANDIDATE'])]
 
 data2 = pandas.read_csv('K2.csv',comment = "#")
 data2=data2[['ra','dec','pl_rade','pl_orbper','st_teff','st_rad','disposition']]
-data2['disposition'] = data2['koi_disposition'].map({'CONFIRMED': 0, 'CANDIDATE': 1 ,'FALSE POSITIVE': 2})
+data2['disposition'] = data2['disposition'].map({'CONFIRMED': 0,'FALSE POSITIVE': 1})
+data2 = data2[~data2['disposition'].isin(['CANDIDATE'])]
 
 data3 = pandas.read_csv('TESS.csv',comment = "#")
 data3=data3[['ra','dec','pl_rade','pl_orbper','st_teff','st_rad','tfopwg_disp']]
 data3 = data3.rename(columns={'tfopwg_disp':'disposition'})
-data3 = data3[~data3['disposition'].isin(['APC','FA','KP'])]
-data3['disposition'] = data3['disposition'].map({'CP': 0, 'PC': 1 ,'FP': 2})
+data3 = data3[~data3['disposition'].isin(['APC','FA','KP','PC'])]
+data3['disposition'] = data3['disposition'].map({'CP': 0,'FP': 1})
 
 data=pandas.concat([data1, data2, data3], ignore_index=True)
-
+data = data.dropna(subset=['disposition'])
 #data = data[data['koi_disposition'] != 'CANDIDATE']
 #mapping = {'CONFIRMED': 0, 'FALSE POSITIVE': 1}
 #data['koi_disposition'] = data['koi_disposition'].map(mapping)
