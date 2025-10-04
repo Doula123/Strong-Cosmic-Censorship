@@ -18,6 +18,8 @@ data = data.drop(['kepid','kepoi_name','kepler_name','koi_tce_delivname','koi_pd
 err_columns = data.filter(like='err').columns
 data = data.drop(err_columns, axis=1)
 
+print(data)
+
 x = data.drop('koi_disposition', axis = 1)
 y = data['koi_disposition']
 
