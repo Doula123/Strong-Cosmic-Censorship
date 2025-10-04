@@ -4,30 +4,25 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report
 from sklearn.model_selection import cross_val_score
 
-
 import warnings
 warnings.filterwarnings('ignore')
 
 data = pandas.read_csv('Kepler.csv',comment = "#")
 data = data[data['koi_disposition'] != 'CANDIDATE']
-
 mapping = {'CONFIRMED': 0, 'FALSE POSITIVE': 1}
 data['koi_disposition'] = data['koi_disposition'].map(mapping)
-
 data = data.drop(['kepid','kepoi_name','kepler_name','koi_tce_delivname','koi_pdisposition','koi_fpflag_nt','koi_fpflag_co','koi_fpflag_ss','koi_fpflag_ec','koi_kepmag','dec','koi_score'], axis =1)
 err_columns = data.filter(like='err').columns
 data = data.drop(err_columns, axis=1)
 
-print(data)
-
 x = data.drop('koi_disposition', axis = 1)
 y = data['koi_disposition']
 
-RFclassifier = RandomForestClassifier(n_estimators=300, random_state=42,max_features="log2",max_depth=30)
+RFclassifier = RandomForestClassifier(n_estimators=200, random_state=42,max_features="sqrt",class_weight='balanced',min_samples_leaf=2,min_samples_split=5)
 cv_scores = cross_val_score(RFclassifier, x, y, cv=5, scoring='accuracy')
 print("Mean CV Accuracy:", cv_scores.mean())
 
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42, stratify=y)
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
 
 RFclassifier.fit(x_train, y_train)
 
