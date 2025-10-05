@@ -1,7 +1,5 @@
 import pandas as pd
 
-
-
 data = pd.read_csv("Kepler.csv",comment = '#')
 data2 = pd.read_csv("K2.csv",comment = '#')
 data3 = pd.read_csv("TESS.csv",comment = '#')
@@ -28,6 +26,7 @@ label_map = {'FP':'FALSE POSITIVE', 'PC':'CANDIDATE', 'CP':'CONFIRMED'}
 data3['koi_disposition'] = data3['tfopwg_disp'].map(label_map)
 
 tess = data3.rename(columns={
+
     'pl_orbper':   'koi_period',
     'pl_trandurh': 'koi_duration',
     'pl_trandep':  'koi_depth',
@@ -42,6 +41,15 @@ tess = data3.rename(columns={
 for col in ['koi_model_snr','koi_impact']:
     if col not in tess.columns:
         tess[col] = float('nan')
+
+if 'pl_name' in k2.columns:
+    k2['planet_name'] = k2['pl_name']
+
+if 'toi' in tess.columns:
+    tess['planet_name'] = k2['toi']
+
+
+
 
 tess = tess.dropna(subset=['koi_disposition'])
 
@@ -58,8 +66,8 @@ features = [
     'koi_slogg',
     'koi_teq',     
     'koi_insol'
-    
 ]
+
 print(set(features) - set(k2.columns))
 
 print(data.columns.tolist())
