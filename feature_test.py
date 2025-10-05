@@ -49,7 +49,7 @@ RFclassifier = RandomForestClassifier(n_estimators=300, random_state=42,max_feat
 cv_scores = cross_val_score(RFclassifier, x, y, cv=5, scoring='accuracy')
 print("Mean CV Accuracy:", cv_scores.mean())
 
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.05, random_state=42)
 
 RFclassifier.fit(x_train, y_train)
 
