@@ -55,6 +55,9 @@ body.space-bg {
     color: #e0e0e0;
   }
   #upload-section,
-#manual-input-section {
+/*
+  #manual-input-section {
   display: none !important;
 }
+
+ */

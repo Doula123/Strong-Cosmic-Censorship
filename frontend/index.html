@@ -20,24 +20,21 @@
      <!-- Explanation Section -->
     <div id="explanation-section" class="card p-4 mx-auto mb-4 result-card">
       <p class="text-light">
-        This prediction tool will use a trained AI model to predict the planetery disposition of observed
-        objects of interest. It uses a random trees algorithm to classify each object as a confirmed planet,
-        a candidate planet, or a false positive.
-      </p>
+        This prediction tool uses an AI model to predict whether observed objects of interest should be classified as confirmed, candidate, or false positive exoplanets.
+        Our algorithm uses the random tree classifier machine learning method, and is trained on the Kepler, K2 and TESS databases.
     </div>
 
-    <!-- Upload Section -->
+
     <div id="upload-section" class="card p-4 mx-auto upload-card">
 
-        <!--file upload start -->
+
 
       <h2 class="text-glow">CSV file upload</h2>
       <p class="text-light">For Kepler/K2/TESS-style datasets</p>
 
-        <!--drop down menu start -->
+
         <details>
         <summary class="text-light">File guidelines (drop-down menu)</summary>
-        <p class="text-light">
           <ul class="text-light text-start">
            <li> <u>Need column</u>:</li>
               <ul>
@@ -69,27 +66,26 @@
 
         </p>
       </details>
-        <!--drop down menu end --> <br>
+        <br>
 
       <input type="file" id="csvFile" accept=".csv" class="form-control mb-3">
       <button id="predictBtn" class="btn btn-glow px-5">Predict</button>
       <div id="loading" class="mt-3 text-light d-none">⏳ Processing…</div>
       <br>
-    <!--file upload end -->
+
     </div>
 
     <div id="manual-input-section" class="card p-4 mx-auto upload-card">
       <h4 class="text-glow">Manual Input (instead of CSV)</h4>
       <p class="text-light text-start">Enter values for each column:</p>
 
-    <!-- Required -->
+
       <div class="mb-3">
         <label for="planet_name" class="form-label text-light">Planet Name</label>
         <input type="text" id="planet_name" class="form-control" placeholder="e.g. Kepler-22b">
       </div>
 
-      <!-- At least 3 required -->
-      <h6 class="text-light">Required numerical columns (fill at least three)</h6>
+      <h6 class="text-light">Fill at least 3:</h6>
       <div class="row g-2">
         <div class="col-md-6">
           <label class="form-label text-light">Signal to Noise Ratio</label>
@@ -100,7 +96,7 @@
           <input type="number" class="form-control" id="planet_rad">
         </div>
         <div class="col-md-6">
-          <label class="form-label text-light">Transit Depth[%]</label>
+          <label class="form-label text-light">Transit Depth [%]</label>
           <input type="number" class="form-control" id="depth">
         </div>
         <div class="col-md-6">
@@ -117,7 +113,7 @@
         </div>
       </div>
       <br>
-      <h6 class="text-light">Optional columns (fill any number)</h6>
+      <h6 class="text-light">Optional columns</h6>
       <div class="row g-2">
         <div class="col-md-6">
           <label class="form-label text-light">Planet Equilibrium Temperature [K]</label>
