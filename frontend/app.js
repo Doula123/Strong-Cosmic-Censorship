@@ -174,7 +174,7 @@ function handleManualPredict() {
 
 
 
-
+//. . .update UI . . . 
 //updates UI with backend predictions
 function updateUI(results) {
     const tableBody = document.getElementById('resultsTable').querySelector('tbody');
@@ -218,7 +218,7 @@ function updateUI(results) {
         });
         tableBody.appendChild(tr);
 
-        // count predictions (last element in the row is the prediction string)
+        // count predictions (last element in row is prediction string)
         const prediction = row[row.length - 1];
         if (prediction === 'CONFIRMED') confirmedCount++;
         else if (prediction === 'CANDIDATE') candidateCount++;
@@ -237,9 +237,38 @@ function updateUI(results) {
     `;
     
     // generate charts and show results
+
     // generateCharts();
     document.getElementById('results-section').classList.remove('d-none');
     
     // scroll to results
     document.getElementById('results-section').scrollIntoView({ behavior: 'smooth' });
 }
+
+
+// . . . INitiAlizatIOn!!! . . .
+
+//wait til html loads and parses before running
+document.addEventListener('DOMContentLoaded', () => {
+    // new container for error messages (dynamic)
+    const mainContainer = document.querySelector('main.container');
+    if (mainContainer) {
+        const errorContainer = document.createElement('div');
+        errorContainer.id = 'error-message-container';
+        errorContainer.className = 'fixed-top mt-2 mx-auto col-11 col-md-6';
+        mainContainer.parentNode.insertBefore(errorContainer, mainContainer);
+    }
+    
+    const predictBtn = document.getElementById('predictBtn');
+    const inputPredictBtn = document.getElementById('inputPredictBtn');
+    
+    if (predictBtn) {
+        predictBtn.addEventListener('click', handleCsvUpload);
+    }
+    
+    if (inputPredictBtn) {
+        inputPredictBtn.addEventListener('click', handleManualPredict);
+    }
+    // initially hide results section
+    document.getElementById('results-section').classList.add('d-none');
+});
