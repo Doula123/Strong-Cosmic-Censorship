@@ -4,7 +4,9 @@ data = pd.read_csv("Kepler.csv",comment = '#')
 data2 = pd.read_csv("K2.csv",comment = '#')
 data3 = pd.read_csv("TESS.csv",comment = '#')
 
-
+kepler = data.rename(columns=
+                     
+                     )
 
 
 k2 = data2.rename(columns={
@@ -83,9 +85,6 @@ print("TESS:", tess_clean.shape)
 
 combined = pd.concat([data_clean,k2_clean, tess_clean],ignore_index=True)
 print("Combined,", combined.shape)
-
-
-
 
 
 combined.to_csv("CleanedKepler.csv", index=False)
