@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 import joblib
 import pandas as pd
-from validator import prepare_user_input
+from validator import prepare_user_input, coreFeatures, optionalFeatures
 
 model = joblib.load ("exoplanet_model.pkl")
 
@@ -9,7 +9,6 @@ app = Flask(__name__)
 
 @app.route("/predict", methods=["POST"])
 def predict():
- 
 
     if 'file' not in request.files:
             return jsonify({"error": "No file uploaded"}), 400
@@ -39,6 +38,63 @@ def predict():
 
     except Exception as e:
         return jsonify({"error": str(e)}),500
+    
+@app.route("/predict_single", methods=["POST"])
+def predict_single():
+      try:
+            input_data = request.json
+            if not input_data:
+                  return jsonify({"error": "No input provided"}), 400 
+            planet_name = input_data.get("planet_name","Usersplanet")
+            providedCore= [
+                  f for f in coreFeatures
+                  if f in input_data and input_data[f] not in [None,'','NaN']
+            ]
+            if len(providedCore) < 3:
+                  return jsonify({"error": f"Please provide atleast 3 core features: {', '.join(coreFeatures)}", 
+                                  "providedcore": providedCore      }), 400
+            
+            row = {"planet_name":planet_name}
+            for f in coreFeatures + optionalFeatures:
+                  row[f] = input_data.get(f,None)
+
+            period = row.get('orb_period') or 0
+            duration = row.get('duration') or 0
+            row['duration_ratio']= duration/(period + 1e-6)
+
+            df = pd.DataFrame([row])
+
+            ordered_cols = [
+                'koi_period',
+                'koi_duration',
+                'koi_depth',
+                'koi_prad',
+                'koi_srad',
+                'koi_model_snr',
+                'koi_impact', 
+                'koi_steff',
+                'koi_slogg',
+                'koi_teq',          
+                'koi_insol',
+                'duration_ratio',
+            ]
+
+            X= df[ordered_cols]
+            pred = model.predict(X)[0]
+            label_map = {0:'FALSE POSITIVE', 1:'CANDIDATE',2:'CONFIRMED'}
+            prediction_label = label_map[int(pred)]
+
+            return jsonify({
+                  "planet_name": planet_name,
+                  "prediction": prediction_label,
+                  "features_used": {k: row[k] for k in coreFeatures + optionalFeatures},
+            })
+      
+      except Exception as e:
+            return jsonify({"error": str(e)})
+      
+
+      
     
 if __name__ == "__main__":
      app.run(debug=True)
