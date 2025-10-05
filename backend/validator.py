@@ -22,6 +22,9 @@ def prepare_user_input(csv_path, min_core_required=3):
 
 
     df = pd.read_csv(csv_path)
+
+    if 'planet_name' not in df.columns:
+        raise ValueError("Your CSV must include a 'planet_name' column.")
     
     provided_core = [c for c in coreFeatures if c in df.columns and df[c].notna().any()]
     if len(provided_core) < min_core_required:
@@ -41,4 +44,4 @@ def prepare_user_input(csv_path, min_core_required=3):
 
     # 5. Return in model’s expected column order
     features = coreFeatures +optionalFeatures + ['duration_ratio']
-    return df[features]
+    return df[['planet_name'] + features]
