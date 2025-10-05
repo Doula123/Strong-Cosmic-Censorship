@@ -2,16 +2,6 @@
 // 1. Feature Keys
 // ===============================
 const CORE_FEATURE_KEYS = [
-<<<<<<< HEAD
-    'model_snr', 'planet_rad', 'depth', 'impact', 'orb_period', 'duration'
-];
-const API_URL = '/predict'; //backend url
-
-
-
-// . . .utilities . . .
-function displayError(message) {
-=======
     'orb_period',
     'duration',
     'depth',
@@ -43,7 +33,6 @@ function displayError(message) {
   // 2. Utility Functions
   // ===============================
   function displayError(message) {
->>>>>>> aa85bd873ba81abdd8fe4b380d9e983f75c13a5c
     const errorContainer = document.getElementById('error-message-container');
     if (!errorContainer) return;
   
@@ -177,56 +166,6 @@ function displayError(message) {
     }
   
     predictData(file, file.name);
-<<<<<<< HEAD
-}
-
-//handle manual input
-function handleManualPredict() {
-    const csvBlob = createCsvBlobFromInput();
-
-    if (csvBlob) {
-        predictData(csvBlob, 'manual_input.csv');
-    }
-} 
-
-
-
-
-/**
- * function generateCharts(){
- * clear previous
- *  if (confusionChartInstance) confusionChartInstance.destroy();
-    if (featureChartInstance) featureChartInstance.destroy();
-    
-    make graphs......-->
-
-    confusion matrix chart..
-
-    feature importance chart..
-    
-    }
- */
-
-
-
-//. . . Update UI . . . 
-//updates UI with backend predictions
-function updateUI(results) {
-    const tableBody = document.getElementById('resultsTable').querySelector('tbody');
-    const tableHead = document.getElementById('resultsTable').querySelector('thead');
-    const summaryDiv = document.getElementById('summary');
-    
-    // clear previous results.
-    tableHead.innerHTML = '';
-    tableBody.innerHTML = '';
-
-    if (!results.columns || !results.rows || results.rows.length === 0) {
-        displayError("Received no data or rows from the predictor.");
-        return;
-    }
-
-    //table header
-=======
   }
   
   
@@ -248,7 +187,6 @@ function updateUI(results) {
     tbody.innerHTML = '';
   
     // Add header
->>>>>>> aa85bd873ba81abdd8fe4b380d9e983f75c13a5c
     const headerRow = document.createElement('tr');
     result.columns.forEach(col => {
       const th = document.createElement('th');
