@@ -2,20 +2,20 @@ import pandas as pd
 import numpy as np
 
 coreFeatures = [
-    'koi_model_snr',
-    'koi_prad',
-    'koi_depth',
-    'koi_impact',
-    'koi_period',
-    'koi_duration'
+    'model_snr',
+    'planet_rad',
+    'depth',
+    'impact',
+    'orb_period',
+    'duration'
 ]
 
 optionalFeatures = [
-    'koi_teq',
-    'koi_steff',
-    'koi_insol',
-    'koi_srad',
-    'koi_slogg'
+    'planet_eq_temp',
+    'stellar_teff',
+    'planet_insol',
+    'stellar_rad',
+    'stellar_g_log'
 ]
 
 def prepare_user_input(csv_path, min_core_required=3):
@@ -40,7 +40,7 @@ def prepare_user_input(csv_path, min_core_required=3):
             df[c] = np.nan
 
     # 4. Compute derived feature
-    df['duration_ratio'] = df['koi_duration'] / (df['koi_period'] + 1e-6)
+    df['duration_ratio'] = df['duration'] / (df['orb_period'] + 1e-6)
 
     # 5. Return in model’s expected column order
     features = coreFeatures +optionalFeatures + ['duration_ratio']
