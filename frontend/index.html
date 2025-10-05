@@ -28,8 +28,8 @@
 
     <!-- Upload Section -->
     <div id="upload-section" class="card p-4 mx-auto upload-card">
-      <h2 class="text-glow">Upload Your CSV</h2>
-      <p class="text-light">Upload your Kepler/K2/TESS-style dataset</p>
+      <h2 class="text-glow">CSV file upload</h2>
+      <p class="text-light">For Kepler/K2/TESS-style datasets</p>
       <input type="file" id="csvFile" accept=".csv" class="form-control mb-3">
       <button id="predictBtn" class="btn btn-glow px-5">Predict</button>
       <div id="loading" class="mt-3 text-light d-none">⏳ Processing…</div>
@@ -38,7 +38,10 @@
         <summary class="text-light">CSV file guidelines (drop-down menu)</summary>
         <p class="text-light">
           <ul class="text-light text-start">
-            <li>Contain column: "planet_name"</li>
+            <li><u>Need column</u>: </li>
+              <ul>
+                  <li> "planet_name" </li>
+              </ul>
             <li>Contain at least three of the following columns:
               <ul>
                 <li>"model_snr" (Signal to noise ratio)</li>
