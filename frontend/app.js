@@ -15,7 +15,7 @@ const FEATURE_MAP = {
 const CORE_FEATURE_KEYS = [
     'model_snr', 'planet_rad', 'depth', 'impact', 'orb_period', 'duration'
 ];
-const API_URL = '/predict'; //? change to backend url
+const API_URL = '/predict'; //backend url
 
 
 
@@ -168,13 +168,17 @@ function handleManualPredict() {
     if (featureChartInstance) featureChartInstance.destroy();
     
     make graphs......-->
+
+    confusion matrix chart..
+
+    feature importance chart..
     
     }
  */
 
 
 
-//. . .update UI . . . 
+//. . . Update UI . . . 
 //updates UI with backend predictions
 function updateUI(results) {
     const tableBody = document.getElementById('resultsTable').querySelector('tbody');
