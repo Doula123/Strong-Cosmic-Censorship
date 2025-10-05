@@ -46,7 +46,7 @@ y = (data['disposition'].map(label_map))
 print("Class distribution:")
 print(y.value_counts())
 
-X_train, X_test, y_train, y_test = train_test_split(x, y, test_size = 0.2, stratify=y, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(x, y, test_size = 0.05, stratify=y, random_state=42)
 
 #model = RandomForestClassifier(
     #n_estimators=100,
@@ -63,10 +63,10 @@ pipe = Pipeline([
     ('imputer', IterativeImputer(random_state=42)),
     ('model', RandomForestClassifier(
          class_weight=None,
-        max_depth=20,
+        max_depth=40,
         max_features='sqrt',
-        min_samples_leaf=2,
-        min_samples_split=2,
+        min_samples_leaf=1,
+        min_samples_split=5,
         n_estimators=200,
         random_state=42
     ))
