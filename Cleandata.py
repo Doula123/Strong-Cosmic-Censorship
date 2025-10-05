@@ -94,5 +94,4 @@ combined = pd.concat([data_clean,k2_clean, tess_clean],ignore_index=True)
 print("Combined,", combined.shape)
 
 
-
 combined.to_csv("CleanedKepler.csv", index=False)

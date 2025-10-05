@@ -21,6 +21,8 @@ data['duration_ratio'] = data['duration'] / (data['orb_period'] + 1e-6)
 
 print(data['disposition'].unique())
 
+planet_names = data['planet_name']
+
 features = [
     'orb_period',
     'duration',
