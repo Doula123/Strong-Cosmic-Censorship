@@ -20,9 +20,9 @@
     <!-- Explanation Section -->
     <div id="explanation-section" class="card p-4 mx-auto mb-4 result-card">
       <p class="text-light">
-        This prediction tool will use a trained AI model to predicted the planetery disposition of observed
-        objects of interest. It uses a random trees algorithm to classified each object as a confirmed planets,
-        candidate planets, or false positives. 
+        This prediction tool will use a trained AI model to predict the planetery disposition of observed
+        objects of interest. It uses a random trees algorithm to classify each object as a confirmed planet,
+        a candidate planet, or a false positive.
       </p>
     </div>
 
@@ -35,31 +35,31 @@
       <div id="loading" class="mt-3 text-light d-none">⏳ Processing…</div>
       <br>
       <details>
-        <summary class="text-light">Your CSV file should follow these guidelends </summary>
+        <summary class="text-light">CSV file guidelines (drop-down menu)</summary>
         <p class="text-light">
           <ul class="text-light text-start">
             <li>Contain column: "planet_name"</li>
             <li>Contain at least three of the following columns:
               <ul>
-                <li>Column: "model_snr"</li>
-                <li>Column: "planet_rad"</li>
-                <li>Column: "depth"</li>
-                <li>Column: "impact"</li>
-                <li>Column: "orb_period"</li>
-                <li>Column: "duration"</li>
+                <li>"model_snr" (Signal to noise ratio)</li>
+                <li>"planet_rad" (Planetary radius [in Earth radii])</li>
+                <li>"depth" (Transit depth [%])</li>
+                <li>"impact" (Impact parameter)</li>
+                <li>"orb_period" (Orbital period [days])</li>
+                <li>"duration" (Transit duration [hours])</li>
               </ul>
             </li>
-            <li>May contain optional columns:
+            <li>Optional columns (increase model accuracy) :
               <ul>
-                <li>Column: "planet_eq_temp"</li>
-                <li>Column: "stellar_teff"</li>
-                <li>Column: "planet_insol"</li>
-                <li>Column: "stellar_rad"</li>
-                <li>Column: "stellar_g_log"</li>
+                <li>"planet_eq_temp" (Planet equilibrium temperature [K])</li>
+                <li>"stellar_teff" (Stellar effective temperature [K])</li>
+                <li>Column: "planet_insol" (Insolation flux [Earth flux])</li>
+                <li>Column: "stellar_rad" (Stellar radius [Sun radii])</li>
+                <li>Column: "stellar_g_log" (Stellar surface gravity [cm/s^2])</li>
               </ul>
             </li>
-            <li>Dataset does not need to be complete, empty spaces will be accounted for</li>
-            <li>Column order does not matter</li>
+            <li>Empty cells in dataset will be filled using an iterative imputer algorithm.</li>
+            <li>Column order does not matter.</li>
           </ul>
         </p>
       </details>
@@ -136,7 +136,7 @@
     <div id="explanation-section" class="card p-2 mx-auto mb-4 result-card">
       <h5 class="text-glow">Created by</h5>
       <p class="text-light">
-        Phillipe Michaud, Noah Frew, Liam Handfield, Eliot Galilee, Mathilde De Pellegrin for the NASA 2025 Space Apps Hackathon 
+        Philippe Michaud, Noah Frew, Liam Handfield, Eliot Galilee, Mathilde Pellegrin for the NASA 2025 Space Apps Hackathon
       </p>
     </div>
 
