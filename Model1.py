@@ -12,27 +12,27 @@ import joblib
 
 data = pd.read_csv("CleanedKepler.csv")
 
-data = data[data['koi_disposition'] != 'REFUTED']
+data = data[data['disposition'] != 'REFUTED']
 
 print(data.shape)
 
-data = data.dropna(subset=['koi_disposition'])
-data['duration_ratio'] = data['koi_duration'] / (data['koi_period'] + 1e-6)
+data = data.dropna(subset=['disposition'])
+data['duration_ratio'] = data['duration'] / (data['orb_period'] + 1e-6)
 
-print(data['koi_disposition'].unique())
+print(data['disposition'].unique())
 
 features = [
-    'koi_period',
-    'koi_duration',
-    'koi_depth',
-    'koi_prad',
-    'koi_srad',
-    'koi_model_snr',
-    'koi_impact', 
-    'koi_steff',
-    'koi_slogg',
-    'koi_teq',          
-    'koi_insol',
+    'orb_period',
+    'duration',
+    'depth',
+    'planet_rad',
+    'stellar_rad',
+    'model_snr',
+    'impact',
+    'stellar_teff',
+    'stellar_g_log',
+    'planet_eq_temp',
+    'planet_insol',
     'duration_ratio',
 ]
 
@@ -40,13 +40,13 @@ x = data[features]
 
 
 label_map = {'FALSE POSITIVE':0, 'CANDIDATE':1, 'CONFIRMED':2}
-y = (data['koi_disposition'].map(label_map))
+y = (data['disposition'].map(label_map))
 
 
 print("Class distribution:")
 print(y.value_counts())
 
-X_train, X_test, y_train, y_test = train_test_split(x, y, test_size = 0.2, stratify=y, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(x, y, test_size = 0.05, stratify=y, random_state=42)
 
 #model = RandomForestClassifier(
     #n_estimators=100,
@@ -63,10 +63,10 @@ pipe = Pipeline([
     ('imputer', IterativeImputer(random_state=42)),
     ('model', RandomForestClassifier(
          class_weight=None,
-        max_depth=20,
+        max_depth=40,
         max_features='sqrt',
-        min_samples_leaf=2,
-        min_samples_split=2,
+        min_samples_leaf=1,
+        min_samples_split=5,
         n_estimators=200,
         random_state=42
     ))
