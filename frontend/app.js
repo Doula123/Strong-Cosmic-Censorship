@@ -15,7 +15,7 @@ const FEATURE_MAP = {
 const CORE_FEATURE_KEYS = [
     'model_snr', 'planet_rad', 'depth', 'impact', 'orb_period', 'duration'
 ];
-const API_URL = '/predict'; //?
+const API_URL = '/predict'; //? change to backend url
 
 
 
@@ -156,4 +156,119 @@ function handleManualPredict() {
     if (csvBlob) {
         predictData(csvBlob, 'manual_input.csv');
     }
+} 
+
+
+
+
+/**
+ * function generateCharts(){
+ * clear previous
+ *  if (confusionChartInstance) confusionChartInstance.destroy();
+    if (featureChartInstance) featureChartInstance.destroy();
+    
+    make graphs......-->
+    
+    }
+ */
+
+
+
+//. . .update UI . . . 
+//updates UI with backend predictions
+function updateUI(results) {
+    const tableBody = document.getElementById('resultsTable').querySelector('tbody');
+    const tableHead = document.getElementById('resultsTable').querySelector('thead');
+    const summaryDiv = document.getElementById('summary');
+    
+    // clear previous results.
+    tableHead.innerHTML = '';
+    tableBody.innerHTML = '';
+
+    if (!results.columns || !results.rows || results.rows.length === 0) {
+        displayError("Received no data or rows from the predictor.");
+        return;
+    }
+
+    //table header
+    const headerRow = document.createElement('tr');
+    results.columns.forEach(col => {
+        const th = document.createElement('th');
+        th.textContent = col;
+        headerRow.appendChild(th);
+    });
+    tableHead.appendChild(headerRow);
+
+    // table body and summary
+    let confirmedCount = 0;
+    let candidateCount = 0;
+    let falsePositiveCount = 0;
+    
+    results.rows.forEach(row => {
+        const tr = document.createElement('tr');
+        row.forEach((cell, index) => {
+            const td = document.createElement('td');
+            // If the cell is a number, round it (readability)
+            if (typeof cell === 'number' && index < row.length - 1) { 
+                td.textContent = cell.toFixed(4);
+            } else {
+                td.textContent = cell;
+            }
+            tr.appendChild(td);
+        });
+        tableBody.appendChild(tr);
+
+        // count predictions (last element in row is prediction string)
+        const prediction = row[row.length - 1];
+        if (prediction === 'CONFIRMED') confirmedCount++;
+        else if (prediction === 'CANDIDATE') candidateCount++;
+        else if (prediction === 'FALSE POSITIVE') falsePositiveCount++;
+    });
+
+    const totalCount = results.rows.length;
+
+    // update summary 
+    summaryDiv.innerHTML = `
+        <p class="mb-2">Total Objects Analyzed: <strong>${totalCount}</strong></p>
+        <p class="mb-1 text-success">Confirmed Planets: <strong>${confirmedCount}</strong> (${((confirmedCount / totalCount) * 100).toFixed(1)}%)</p>
+        <p class="mb-1 text-warning">Candidate Planets: <strong>${candidateCount}</strong> (${((candidateCount / totalCount) * 100).toFixed(1)}%)</p>
+        <p class="mb-1 text-danger">False Positives: <strong>${falsePositiveCount}</strong> (${((falsePositiveCount / totalCount) * 100).toFixed(1)}%)</p>
+        <p class="mt-3 text-info border-top pt-2">Model Run successfully using **${results.columns.length - 1}** features.</p>
+    `;
+    
+    // generate charts and show results
+
+    // generateCharts();
+    document.getElementById('results-section').classList.remove('d-none');
+    
+    // scroll to results
+    document.getElementById('results-section').scrollIntoView({ behavior: 'smooth' });
 }
+
+
+// . . . INitiAlizatIOn!!! . . .
+
+//wait til html loads and parses before running
+document.addEventListener('DOMContentLoaded', () => {
+    // new container for error messages (dynamic)
+    const mainContainer = document.querySelector('main.container');
+    if (mainContainer) {
+        const errorContainer = document.createElement('div');
+        errorContainer.id = 'error-message-container';
+        errorContainer.className = 'fixed-top mt-2 mx-auto col-11 col-md-6';
+        mainContainer.parentNode.insertBefore(errorContainer, mainContainer);
+    }
+    
+    const predictBtn = document.getElementById('predictBtn');
+    const inputPredictBtn = document.getElementById('inputPredictBtn');
+    
+    if (predictBtn) {
+        predictBtn.addEventListener('click', handleCsvUpload);
+    }
+    
+    if (inputPredictBtn) {
+        inputPredictBtn.addEventListener('click', handleManualPredict);
+    }
+    // initially hide results section
+    document.getElementById('results-section').classList.add('d-none');
+});
