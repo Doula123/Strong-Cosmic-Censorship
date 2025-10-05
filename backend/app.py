@@ -65,19 +65,19 @@ def predict_single():
             df = pd.DataFrame([row])
 
             ordered_cols = [
-                'koi_period',
-                'koi_duration',
-                'koi_depth',
-                'koi_prad',
-                'koi_srad',
-                'koi_model_snr',
-                'koi_impact', 
-                'koi_steff',
-                'koi_slogg',
-                'koi_teq',          
-                'koi_insol',
-                'duration_ratio',
-            ]
+                        'orb_period',
+                        'duration',
+                        'depth',
+                        'planet_rad',
+                        'stellar_rad',
+                        'model_snr',
+                        'impact',
+                        'stellar_teff',
+                        'stellar_g_log',
+                        'planet_eq_temp',
+                        'planet_insol',
+                        'duration_ratio',
+                        ]
 
             X= df[ordered_cols]
             pred = model.predict(X)[0]
