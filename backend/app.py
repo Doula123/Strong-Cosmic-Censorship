@@ -20,14 +20,20 @@ def predict():
     try:
         
         data = prepare_user_input(uploaded_file)
-        prediction = model.predict(data)
+
+        planet_names = data['planet_name'].tolist()
+        X = data.drop(columns=['planet_name'])
+        prediction = model.predict(X)
         label_map = {0:'FALSE POSITIVE', 1:'CANDIDATE',2:'CONFIRMED'}
         results = [label_map[(int(p))] for p in prediction]
 
+        columns = ['planet_name'] + X.columns.tolist() + ["Prediction"]
+        rows = [ [planet_names[i]] + X.iloc[i].tolist()+[results[i]] for i in range(len(data))]
+
         return jsonify({
               
-            "columns": data.columns.tolist() + ["Prediction"],
-            "rows": [row + [pred] for row, pred in zip(data.values.tolist(), results)]
+            "columns": columns,
+            "rows": rows
         })
 
 
