@@ -1,27 +1,42 @@
 import pandas as pd
 import numpy as np
+from Cleandata import clean_uploaded_dataset
 
 coreFeatures = [
-    'model_snr',
-    'planet_rad',
-    'depth',
-    'impact',
     'orb_period',
-    'duration'
+    'duration',
+    'depth',
+    'planet_rad',
+    'stellar_rad',
+    'model_snr',
+    'impact'
 ]
 
 optionalFeatures = [
-    'planet_eq_temp',
     'stellar_teff',
-    'planet_insol',
+    'stellar_g_log',
+    'planet_eq_temp',
+    'planet_insol'
+]
+MODEL_FEATURE_ORDER = [
+    'orb_period',
+    'duration',
+    'depth',
+    'planet_rad',
     'stellar_rad',
-    'stellar_g_log'
+    'model_snr',
+    'impact',
+    'stellar_teff',
+    'stellar_g_log',
+    'planet_eq_temp',
+    'planet_insol',
+    'duration_ratio'
 ]
 
 def prepare_user_input(csv_path, min_core_required=3):
 
 
-    df = pd.read_csv(csv_path)
+    df = clean_uploaded_dataset(csv_path)
 
     if 'planet_name' not in df.columns:
         raise ValueError("Your CSV must include a 'planet_name' column.")
@@ -35,7 +50,7 @@ def prepare_user_input(csv_path, min_core_required=3):
         )
     
 
-    for c in coreFeatures + optionalFeatures:
+    for c in MODEL_FEATURE_ORDER:
         if c not in df.columns:
             df[c] = np.nan
 
@@ -44,4 +59,4 @@ def prepare_user_input(csv_path, min_core_required=3):
 
     # 5. Return in model’s expected column order
     features = coreFeatures +optionalFeatures + ['duration_ratio']
-    return df[['planet_name'] + features]
+    return df[['planet_name'] + MODEL_FEATURE_ORDER]

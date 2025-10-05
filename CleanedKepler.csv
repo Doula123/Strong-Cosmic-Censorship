@@ -1,4 +1,4 @@
-planet_name,koi_period,koi_duration,koi_depth,koi_prad,koi_srad,koi_model_snr,koi_impact,koi_steff,koi_slogg,koi_teq,koi_insol,koi_disposition
+planet_name,orb_period,duration,depth,planet_rad,stellar_rad,model_snr,impact,stellar_teff,stellar_g_log,planet_eq_temp,planet_insol,disposition
 10797460,9.48803557,2.9575,615.8,2.26,0.927,35.8,0.146,5455.0,4.467,793.0,93.59,CONFIRMED
 10797460,54.4183827,4.507,874.8,2.83,0.927,25.8,0.586,5455.0,4.467,443.0,9.11,CONFIRMED
 10811496,19.89913995,1.7822,10829.0,14.6,0.868,76.3,0.969,5853.0,4.544,638.0,39.3,CANDIDATE

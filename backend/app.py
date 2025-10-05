@@ -1,43 +1,76 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 import joblib
 import pandas as pd
 from validator import prepare_user_input, coreFeatures, optionalFeatures
+import traceback
+import numpy as np
 
 model = joblib.load ("exoplanet_model.pkl")
 
-app = Flask(__name__)
+
+app = Flask(__name__, static_folder="../frontend")
+
+@app.route("/")
+def index():
+    return send_from_directory(app.static_folder, "index.html")
+
+@app.route("/<path:filename>")
+def frontend_static(filename):
+    return send_from_directory(app.static_folder, filename)
 
 @app.route("/predict", methods=["POST"])
 def predict():
-
     if 'file' not in request.files:
-            return jsonify({"error": "No file uploaded"}), 400
+        return jsonify({"error": "No file uploaded"}), 400
+
     uploaded_file = request.files['file']
 
     if not uploaded_file.filename.endswith('.csv'):
-            return jsonify({"error": "Only CSV files are supported"}), 400  
+        return jsonify({"error": "Only CSV files are supported"}), 400
+
     try:
-        
+        print("📥 Received file:", uploaded_file.filename)
         data = prepare_user_input(uploaded_file)
+        X = data[[
+    'model_snr',
+    'planet_rad',
+    'depth',
+    'impact',
+    'orb_period',
+    'duration',
+    'planet_eq_temp',
+    'stellar_teff',
+    'planet_insol',
+    'stellar_rad',
+    'stellar_g_log',
+    'duration_ratio'
+]]
+        print("✅ Columns:", list(data.columns))
+        print("✅ Shape:", data.shape)
 
         planet_names = data['planet_name'].tolist()
         X = data.drop(columns=['planet_name'])
+        print("✅ Features for model:", list(X.columns))
+
         prediction = model.predict(X)
-        label_map = {0:'FALSE POSITIVE', 1:'CANDIDATE',2:'CONFIRMED'}
-        results = [label_map[(int(p))] for p in prediction]
+        label_map = {0:'FALSE POSITIVE', 1:'CANDIDATE', 2:'CONFIRMED'}
+        results = [label_map[int(p)] for p in prediction]
 
         columns = ['planet_name'] + X.columns.tolist() + ["Prediction"]
-        rows = [ [planet_names[i]] + X.iloc[i].tolist()+[results[i]] for i in range(len(data))]
+        rows = [[planet_names[i]] + X.iloc[i].tolist() + [results[i]]
+                for i in range(len(data))]
+        safe_rows = [
+            [None if (pd.isna(cell) or (isinstance(cell, float) and np.isnan(cell))) else cell
+             for cell in row]
+            for row in rows
+        ]
 
-        return jsonify({
-              
-            "columns": columns,
-            "rows": rows
-        })
 
+        return jsonify({"columns": columns, "rows": safe_rows})
 
     except Exception as e:
-        return jsonify({"error": str(e)}),500
+        print("🔥 ERROR in /predict:\n", traceback.format_exc())
+        return jsonify({"error": str(e)}), 500
     
 @app.route("/predict_single", methods=["POST"])
 def predict_single():
