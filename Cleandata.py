@@ -46,8 +46,9 @@ if 'pl_name' in k2.columns:
     k2['planet_name'] = k2['pl_name']
 
 if 'toi' in tess.columns:
-    tess['planet_name'] = k2['toi']
-
+    tess['planet_name'] = tess['toi']
+if 'kepid' in data.columns:
+    data['planet_name'] = data['kepid']
 
 
 
@@ -72,9 +73,9 @@ print(set(features) - set(k2.columns))
 
 print(data.columns.tolist())
 target = 'koi_disposition'
-data_clean = data[features + [target]].copy()
-k2_clean = k2[features + [target]].copy()
-tess_clean   = tess[features + [target]].copy()
+data_clean = data[['planet_name'] + features + [target]].copy()
+k2_clean = k2[['planet_name'] + features + [target]].copy()
+tess_clean   = tess[['planet_name'] + features + [target]].copy()
 
 print("Kepler:", data_clean.shape)
 print("K2,", k2_clean.shape)
