@@ -28,44 +28,54 @@
 
     <!-- Upload Section -->
     <div id="upload-section" class="card p-4 mx-auto upload-card">
+
+        <!--file upload start -->
+
       <h2 class="text-glow">CSV file upload</h2>
       <p class="text-light">For Kepler/K2/TESS-style datasets</p>
+
+        <!--drop down menu start -->
+        <details>
+        <summary class="text-light">File guidelines (drop-down menu)</summary>
+        <p class="text-light">
+          <ul class="text-light text-start">
+           <li> <u>Need column</u>:</li>
+              <ul>
+                  <li> "planet_name" </li> <br>
+              </ul>
+          <li><u>Contain at least 3 of the following columns (use the given naming convention): </u></li>
+              <ul>
+                <li>"model_snr" (signal to noise ratio)</li>
+                <li>"planet_rad" (planetary radius [in Earth radii])</li>
+                <li>"depth" (transit depth [%])</li>
+                <li>"impact" (impact parameter)</li>
+                <li>"orb_period" (orbital period [days])</li>
+                <li>"duration" (transit duration [hours])</li>
+              </ul> <br>
+            <li><u>Optional columns (increase model accuracy) :</u></li>
+              <ul>
+                <li>"planet_eq_temp" (planet equilibrium temperature [K])</li>
+                <li>"stellar_teff" (stellar effective temperature [K])</li>
+                <li>"planet_insol" (insolation flux [Earth flux])</li>
+                <li>"stellar_rad" (stellar radius [Sun radii])</li>
+                <li>"stellar_g_log" (stellar surface gravity [cm/s^2])</li>
+              </ul>
+            </u> <br>
+            <li><u>Note:</u> </li>
+                <ul>
+                    <li>Empty cells in dataset will be filled using an iterative imputer algorithm.</li>
+                    <li>Column order does not matter.</li>
+                </ul>
+
+        </p>
+      </details>
+        <!--drop down menu end --> <br>
+
       <input type="file" id="csvFile" accept=".csv" class="form-control mb-3">
       <button id="predictBtn" class="btn btn-glow px-5">Predict</button>
       <div id="loading" class="mt-3 text-light d-none">⏳ Processing…</div>
       <br>
-      <details>
-        <summary class="text-light">CSV file guidelines (drop-down menu)</summary>
-        <p class="text-light">
-          <ul class="text-light text-start">
-            <li><u>Need column</u>: </li>
-              <ul>
-                  <li> "planet_name" </li>
-              </ul>
-            <li>Contain at least three of the following columns:
-              <ul>
-                <li>"model_snr" (Signal to noise ratio)</li>
-                <li>"planet_rad" (Planetary radius [in Earth radii])</li>
-                <li>"depth" (Transit depth [%])</li>
-                <li>"impact" (Impact parameter)</li>
-                <li>"orb_period" (Orbital period [days])</li>
-                <li>"duration" (Transit duration [hours])</li>
-              </ul>
-            </li>
-            <li>Optional columns (increase model accuracy) :
-              <ul>
-                <li>"planet_eq_temp" (Planet equilibrium temperature [K])</li>
-                <li>"stellar_teff" (Stellar effective temperature [K])</li>
-                <li>Column: "planet_insol" (Insolation flux [Earth flux])</li>
-                <li>Column: "stellar_rad" (Stellar radius [Sun radii])</li>
-                <li>Column: "stellar_g_log" (Stellar surface gravity [cm/s^2])</li>
-              </ul>
-            </li>
-            <li>Empty cells in dataset will be filled using an iterative imputer algorithm.</li>
-            <li>Column order does not matter.</li>
-          </ul>
-        </p>
-      </details>
+    <!--file upload end -->
     </div>
 
     <!-- Manual Input Section -->
