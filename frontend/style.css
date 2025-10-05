@@ -1,5 +1,5 @@
 body.space-bg {
-    background: radial-gradient(circle at top, #132b8f 0%, #0c1d63 30%, #000000 100%);
+    background: radial-gradient(circle at top, #132b8f 0%, #0c1d63 50%, #000000 100%);
     min-height: 100vh;
     color: #f0f0f0;
     font-family: 'Verdana', sans-serif;
@@ -54,3 +54,7 @@ body.space-bg {
   .table-dark th, .table-dark td {
     color: #e0e0e0;
   }
+  #upload-section,
+#manual-input-section {
+  display: none !important;
+}
