@@ -95,6 +95,4 @@ print("Combined,", combined.shape)
 
 
 
-
-
 combined.to_csv("CleanedKepler.csv", index=False)
