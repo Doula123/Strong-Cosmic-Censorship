@@ -1,7 +1,8 @@
 import pandas as pd
 import numpy as np
-from Cleandata import clean_uploaded_dataset
+from .Cleandata import clean_uploaded_dataset
 
+#core features
 coreFeatures = [
     'orb_period',
     'duration',
