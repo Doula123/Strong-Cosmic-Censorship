@@ -1,12 +1,13 @@
 from flask import Flask, request, jsonify, send_from_directory
 import joblib
 import pandas as pd
-from validator import prepare_user_input, coreFeatures, optionalFeatures
+from backend.validator import prepare_user_input, coreFeatures, optionalFeatures
 import traceback
 import numpy as np
 
 model = joblib.load ("exoplanet_model.pkl")
 
+#test
 
 app = Flask(__name__, static_folder="../frontend")
 
