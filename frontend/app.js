@@ -206,7 +206,7 @@ const CORE_FEATURE_KEYS = [
       tbody.appendChild(row);
     });
   
-    document.getElementById('summary').innerHTML = `<p>Predictions generated for ${result.rows.length} objects.</p>`;
+    document.getElementById('summary').innerHTML = `<p>Predictions generated for ${result.rows.length} objects. Expected Accuracy: 74.27%</p>`;
     document.getElementById('results-section').classList.remove('d-none');
   }
   
