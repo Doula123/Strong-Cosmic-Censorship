@@ -25,8 +25,8 @@ const CORE_FEATURE_KEYS = [
     ...OPTIONAL_FEATURE_KEYS
   ];
   
-  const API_URL = 'http://127.0.0.1:5000/predict';          // For CSV upload
-  const API_SINGLE_URL = 'http://127.0.0.1:5000/predict_single'; // For manual JSON input
+  const API_URL = '/predict';          // For CSV upload
+  const API_SINGLE_URL = '/predict_single'; // For manual JSON input
   
   
   // ===============================
