@@ -9,7 +9,7 @@ model = joblib.load ("exoplanet_model.pkl")
 
 #test
 
-app = Flgoask(__name__, static_folder="../frontend")
+app = Flask(__name__, static_folder="../frontend")
 
 @app.route("/")
 def index():
