@@ -219,6 +219,14 @@ const CORE_FEATURE_KEYS = [
   // ===============================
   function updateSingleUI(result) {
     console.log('Single Prediction Result:', result);
+    const uploadDiv = document.getElementById('upload-section');
+    const manualDiv = document.getElementById('manual-input-section');
+    if (uploadDiv) uploadDiv.style.display = 'none';
+    if (manualDiv) manualDiv.style.display = 'none';
+
+    const detailsCard = document.getElementById('detailed-predictions-card');
+    if (detailsCard) detailsCard.style.display = 'none';
+
   
     const summaryDiv = document.getElementById('summary');
     summaryDiv.innerHTML = `
