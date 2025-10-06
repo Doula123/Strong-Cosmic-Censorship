@@ -42,6 +42,9 @@ const CORE_FEATURE_KEYS = [
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
     `;
+
+    errorContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
   
     setTimeout(() => {
       const alertElement = errorContainer.querySelector('.alert');
